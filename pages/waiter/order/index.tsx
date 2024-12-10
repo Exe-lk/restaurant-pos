@@ -23,7 +23,15 @@ import { getFirstLetter } from '../../../helpers/helpers';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import FoodAddModal from '../../../components/custom/FoodAddModal';
-import { addDoc, collection, CollectionReference, doc, DocumentData, getDocs, updateDoc } from 'firebase/firestore';
+import {
+	addDoc,
+	collection,
+	CollectionReference,
+	doc,
+	DocumentData,
+	getDocs,
+	updateDoc,
+} from 'firebase/firestore';
 import { firestore } from '../../../firebaseConfig';
 import Select from '../../../components/bootstrap/forms/Select';
 import Option from '../../../components/bootstrap/Option';
@@ -55,16 +63,12 @@ const Index: NextPage = () => {
 		fetchData();
 	}, []);
 
-
-	const handlesubmit = (data:any) => {
-	
-		const docRef = doc(firestore, "order", data.cid);
+	const handlesubmit = (data: any) => {
+		const docRef = doc(firestore, 'order', data.cid);
 		// Update the data
 
 		updateDoc(docRef, data)
-			.then(() => {
-				
-			})
+			.then(() => {})
 			.catch((error) => {
 				console.error('Error adding document: ', error);
 				alert('An error occurred while adding the document. Please try again later.');
@@ -102,8 +106,8 @@ const Index: NextPage = () => {
 						{/* Table for displaying customer data */}
 						<Card stretch>
 							<CardBody isScrollable className='table-responsive'>
-								<table className='table table-modern table-hover'>
-									<thead>
+								<table className='table table-hover table-bordered border-primary'>
+									<thead className={'table-dark border-primary text-center'}>
 										<tr>
 											<th>Table No</th>
 											<th>order</th>
@@ -112,56 +116,66 @@ const Index: NextPage = () => {
 										</tr>
 									</thead>
 									<tbody>
-										{foodData.map((employee, index) => (
-											<tr key={index}>
-												{/* Display the table number or ID */}
-												<td>{employee.table}</td>
+										{foodData
+											.filter((val: any) => val.status === 'Ready to Serve')
+											.map((filteredEmployee, index) => (
+												<tr key={index}>
+													<td>{filteredEmployee.table}</td>
+													<td>
+														<table className='table table-hover'>
+															<tbody>
+																{filteredEmployee.foodData.map(
+																	(data: any, i: number) => (
+																		<tr key={i}>
+																			<td>{data.name}</td>
+																			<td>{data.points}</td>
+																		</tr>
+																	),
+																)}
+															</tbody>
+														</table>
+													</td>
+													<td>{filteredEmployee.status}</td>
+													<td>
+														<Select
+															ariaLabel='Default select example'
+															placeholder='Change status'
+															className='col-6'
+															value={filteredEmployee.status}
+															onChange={(e: any) => {
+																if (
+																	filteredEmployee.status ===
+																	'Ready to Serve'
+																) {
+																	// Find the index in the original `foodData` array
+																	const originalIndex =
+																		foodData.findIndex(
+																			(item) =>
+																				item.cid ===
+																				filteredEmployee.cid,
+																		);
 
-												{/* Iterate over nested foodData array */}
-												<td>
-													<table className='table table-modern table-hover'>
-														<tbody>
-															{employee.foodData.map(
-																(data: any, i: number) => (
-																	<tr key={i}>
-																		<td>{data.name}</td>
-																		<td>{data.points}</td>
-																	</tr>
-																),
-															)}
-														</tbody>
-													</table>
-												</td>
-												<td>{employee.status}</td>
-												<td>
-												<td>
-                                                <Select
-                                                    ariaLabel='Default select example'
-                                                    placeholder='change status'
-                                                    className='col-6'
-                                                    value={employee.status}
-                                                    onChange={(e: any) => {
-														if(employee.status=='Ready to Serve'){
-															const updatedRows = [...foodData];
-															updatedRows[index].status = e.target.value;
-															setFood(updatedRows);
-															handlesubmit(foodData[index])
-														}
-                                                        
-                                                    }}
-                                                >
-                                                    {/* <Option value='Pending to Prepare'>Pending to Prepare</Option>
-                                                    <Option value='Prepare'>Prepare</Option>
-                                                    <Option value='Ready to Serve'>Ready to Serve</Option> */}
-                                                    <Option value='Serve'>Serve</Option>
-                                                    
-
-                                                </Select>
-                                            </td>
-												</td>
-											</tr>
-										))}
-
+																	if (originalIndex !== -1) {
+																		const updatedRows = [
+																			...foodData,
+																		];
+																		updatedRows[
+																			originalIndex
+																		].status = e.target.value;
+																		setFood(updatedRows);
+																		handlesubmit(
+																			updatedRows[
+																				originalIndex
+																			],
+																		);
+																	}
+																}
+															}}>
+															<Option value='Serve'>Serve</Option>
+														</Select>
+													</td>
+												</tr>
+											))}
 									</tbody>
 								</table>
 							</CardBody>
@@ -175,4 +189,3 @@ const Index: NextPage = () => {
 };
 
 export default Index;
-

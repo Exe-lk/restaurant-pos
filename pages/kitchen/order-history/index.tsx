@@ -105,7 +105,7 @@ const Index: NextPage = () => {
 									</thead>
 									<tbody className='text-center'>
 										{foodData.filter((val:any)=>{
-                                            if(val.status!="Serve"){
+                                            if(val.status=="Serve"){
                                                 return val
                                             }
                                         }).map((employee, index) => (

@@ -104,11 +104,8 @@ const Index: NextPage = () => {
 										</tr>
 									</thead>
 									<tbody className='text-center'>
-										{foodData.filter((val:any)=>{
-                                            if(val.status!="Serve"){
-                                                return val
-                                            }
-                                        }).map((employee, index) => (
+										{foodData
+                                        .map((employee, index) => (
 											 <tr
 											 key={index}
 											 className={
@@ -116,6 +113,7 @@ const Index: NextPage = () => {
 													 ? 'bg-success-subtle text-dark'
 													 : employee.status === 'Pending to Prepare'
 													 ? 'bg-warning-subtle text-dark'
+													 
 													 : employee.status === 'Ready to Serve'
 													 ? 'bg-danger-subtle'
 													 : ''
@@ -126,11 +124,7 @@ const Index: NextPage = () => {
 													<table className='table table-modern table-hover'>
 														<tbody className='text-start'>
 															{employee.foodData
-																.filter((val: any) => {
-																	if (val.orderType == 'food') {
-																		return val;
-																	}
-																})
+																
 																.map((data: any, i: number) => (
 																	<tr key={i}>
 																		<td className='w-50'>

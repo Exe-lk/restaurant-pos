@@ -106,8 +106,8 @@ const Index: NextPage = () => {
 						{/* Table for displaying customer data */}
 						<Card stretch>
 							<CardBody isScrollable className='table-responsive'>
-								<table className='table table-modern table-hover'>
-									<thead>
+							<table className='table table-hover table-bordered border-primary'>
+							<thead className={'table-dark border-primary text-center'}>
 										<tr>
 											<th>Table No</th>
 											<th>order</th>
@@ -116,7 +116,11 @@ const Index: NextPage = () => {
 										</tr>
 									</thead>
 									<tbody>
-										{foodData.map((employee, index) => (
+									{foodData.filter((val:any)=>{
+                                            if(val.status=="Serve"){
+                                                return val
+                                            }
+                                        }).map((employee, index) => (
 											<tr key={index}>
 												{/* Display the table number or ID */}
 												<td>{employee.table}</td>

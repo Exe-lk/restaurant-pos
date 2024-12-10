@@ -118,15 +118,22 @@ export const waiterPagesMenu = {
 	dashboard: {
 		id: 'dashboard',
 		text: 'Dashboard',
-		path: 'kitchen/dashboard',
+		path: 'waiter/dashboard',
 		icon: 'Dashboard',
 		subMenu: null,
 	},
 	stockOut: {
 		id: 'stock',
 		text: 'Orders ',
-		path: 'kitchen/order',
+		path: 'waiter/order',
 		icon: 'Article',
+		subMenu: null,
+	},
+	category: {
+		id: 'category',
+		text: 'Order History',
+		path: 'waiter/order-history',
+		icon: 'Category',
 		subMenu: null,
 	},
 }
@@ -145,19 +152,26 @@ export const kitchenPagesMenu = {
 		icon: 'Article',
 		subMenu: null,
 	},
+	historyOut: {
+		id: 'history',
+		text: 'Orders-History',
+		path: 'kitchen/order-history',
+		icon: 'AssignmentTurnedIn',
+		subMenu: null,
+	},
 }
 export const barPagesMenu = {
 	dashboard: {
 		id: 'dashboard',
 		text: 'Dashboard',
-		path: 'kitchen/dashboard',
+		path: 'bar/dashboard',
 		icon: 'Dashboard',
 		subMenu: null,
 	},
 	stockOut: {
 		id: 'stock',
 		text: 'Orders ',
-		path: 'kitchen/order',
+		path: 'bar/order',
 		icon: 'Article',
 		subMenu: null,
 	},
@@ -166,14 +180,14 @@ export const cashierPagesMenu = {
 	dashboard: {
 		id: 'dashboard',
 		text: 'Dashboard',
-		path: 'kitchen/dashboard',
+		path: 'cashier/dashboard',
 		icon: 'Dashboard',
 		subMenu: null,
 	},
 	stockOut: {
 		id: 'stock',
 		text: 'Orders ',
-		path: 'kitchen/order',
+		path: 'cashier/order',
 		icon: 'Article',
 		subMenu: null,
 	},
