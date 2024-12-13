@@ -85,7 +85,7 @@ export const addminPagesMenu = {
 			},
 			liquor: {
 				id: 'liquor',
-				text: 'Liquor Managment',
+				text: 'Bevergaes Managment',
 				path: 'admin/inventory/liquor',
 				icon: 'Liquor',
 			},

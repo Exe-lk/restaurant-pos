@@ -114,7 +114,15 @@ const Index: NextPage = () => {
 										{foodData
 										 .filter((employee) =>
 											employee.foodData.some((val: any) => val.orderType === 'liquor')
-										) .map((employee, index) => (
+										) .filter((val) => {
+											if (searchTerm === '') {
+												return val;
+											} else if (
+												val.table.toLowerCase().includes(searchTerm.toLowerCase())
+											) {
+												return val;
+											}
+										}).map((employee, index) => (
 											<tr key={index}>
 												{/* Display the table number or ID */}
 												<td>{employee.table}</td>
