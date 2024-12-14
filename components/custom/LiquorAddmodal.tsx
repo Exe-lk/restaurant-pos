@@ -26,7 +26,8 @@ import {
 	doc,
 } from 'firebase/firestore';
 import { Firestore } from 'firebase/firestore';
-import { firestore, auth, storage } from '../../firebaseConfig';
+import { firestore, auth} from '../../firebaseConfig';
+import {  storage } from '../../firbaseConfig1';
 import {
 	getStorage,
 	ref,
