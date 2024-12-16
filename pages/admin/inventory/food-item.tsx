@@ -60,7 +60,7 @@ const Index: NextPage = () => {
 		};
 
 		fetchData();
-	}, []);
+	}, [addModalStatus]);
 
 	const { items, requestSort, getClassNamesFor } = useSortableData(foodData);
 
