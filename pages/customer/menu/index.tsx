@@ -144,7 +144,7 @@ const Index = () => {
 							}}
 							onClick={() => setActiveButton('liquor')} // Set active to 'liquor' on click
 						>
-							Bevergaes
+							Bar
 						</Button>
 					</div>
 				</CardTitle>
