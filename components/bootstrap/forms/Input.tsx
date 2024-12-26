@@ -25,7 +25,7 @@ export interface IInputProps extends HTMLAttributes<HTMLInputElement>, Partial<I
 	ariaDescribedby?: string;
 	ariaLabelledby?: string;
 	ariaLabel?: string;
-	value?: string | number | readonly string[] | undefined;
+	value?: any | number | readonly string[] | undefined;
 	min?: number;
 	max?: any;
 	step?: number;
