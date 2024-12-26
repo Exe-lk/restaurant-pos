@@ -60,7 +60,7 @@ const Index: NextPage = () => {
 		};
 
 		fetchData();
-	}, []);
+	}, [addModalStatus]);
 
 	const { items, requestSort, getClassNamesFor } = useSortableData(foodData);
 
@@ -165,8 +165,17 @@ const Index: NextPage = () => {
 										</tr>
 									</thead>
 									<tbody>
-										{dataPagination(foodData, currentPage, perPage).map(
-											(employee, index) => (
+										{dataPagination(foodData, currentPage, perPage)
+												.filter((val) => {
+													if (searchTerm === '') {
+														return val;
+													} else if (
+														val.name.toString().includes(searchTerm)
+													) {
+														return val;
+													}
+												})
+											.map((employee, index) => (
 												<tr key={employee.id}>
 													<td>
 														<div className='d-flex align-items-center'>
@@ -228,8 +237,7 @@ const Index: NextPage = () => {
 														</Button>
 													</td>
 												</tr>
-											),
-										)}
+											))}
 									</tbody>
 								</table>
 							</CardBody>

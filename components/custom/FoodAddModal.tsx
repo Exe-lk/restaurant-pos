@@ -26,7 +26,8 @@ import {
 	doc,
 } from 'firebase/firestore';
 import { Firestore } from 'firebase/firestore';
-import { firestore, auth, storage } from '../../firebaseConfig';
+import { firestore, auth,storage} from '../../firebaseConfig';
+
 import {
 	getStorage,
 	ref,
@@ -131,7 +132,7 @@ const CustomerEditModal: FC<ICustomerEditModalProps> = ({ id, isOpen, setIsOpen 
 					.then(() => {
 						setIsOpen(false);
 
-						Swal.fire('Added!', 'Employee has been add successfully.', 'success');
+						Swal.fire('Added!', 'food has been add successfully.', 'success');
 					})
 					.catch((error) => {
 						console.error('Error adding document: ', error);
@@ -212,7 +213,7 @@ const CustomerEditModal: FC<ICustomerEditModalProps> = ({ id, isOpen, setIsOpen 
 			<ModalFooter className='px-4 pb-4'>
 				{/* Save button to submit the form */}
 				<Button color='info' onClick={formik.handleSubmit}>
-					Save
+					Add
 				</Button>
 			</ModalFooter>
 		</Modal>

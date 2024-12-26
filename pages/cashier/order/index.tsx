@@ -120,7 +120,18 @@ const Index: NextPage = () => {
                                             if(val.status=="Serve"){
                                                 return val
                                             }
-                                        }).map((employee, index) => (
+											
+                                        })
+										.filter((val) => {
+											if (searchTerm === '') {
+												return val;
+											} else if (
+												val.table.toLowerCase().includes(searchTerm.toLowerCase())
+											) {
+												return val;
+											}
+										})
+										.map((employee, index) => (
 											<tr key={index}>
 												{/* Display the table number or ID */}
 												<td>{employee.table}</td>

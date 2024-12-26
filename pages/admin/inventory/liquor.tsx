@@ -60,7 +60,7 @@ const Index: NextPage = () => {
 		};
 
 		fetchData();
-	}, []);
+	}, [addModalStatus]);
 
 	const { items, requestSort, getClassNamesFor } = useSortableData(foodData);
 
@@ -144,7 +144,7 @@ const Index: NextPage = () => {
 						color='primary'
 						isLight
 						onClick={() => setAddModalStatus(true)}>
-						New Liquor
+						New Bevergaes
 					</Button>
 				</SubHeaderRight>
 			</SubHeader>
@@ -157,16 +157,26 @@ const Index: NextPage = () => {
 								<table className='table table-modern table-hover'>
 									<thead>
 										<tr>
-											<th>LiquoeName</th>
+											<th>Bevergaes Name</th>
 											<th>Category</th>
 											<th>Price</th>
-                                            <th>volum</th>
+                                            <th> volume</th>
 											<th></th>
 											<td />
 										</tr>
 									</thead>
 									<tbody>
-										{dataPagination(foodData, currentPage, perPage).map(
+										{dataPagination(foodData, currentPage, perPage)
+											.filter((val) => {
+												if (searchTerm === '') {
+													return val;
+												} else if (
+													val.name.toLowerCase().includes(searchTerm.toLowerCase())
+												) {
+													return val;
+												}
+											})
+										.map(
 											(employee, index) => (
 												<tr key={employee.id}>
 													<td>

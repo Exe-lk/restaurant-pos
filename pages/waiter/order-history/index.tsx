@@ -105,6 +105,15 @@ const Index: NextPage = () => {
 									</thead>
 									<tbody className='text-center'>
 										{foodData
+										.filter((val) => {
+											if (searchTerm === '') {
+												return val;
+											} else if (
+												val.table.toLowerCase().includes(searchTerm.toLowerCase())
+											) {
+												return val;
+											}
+										})
                                         .map((employee, index) => (
 											 <tr
 											 key={index}

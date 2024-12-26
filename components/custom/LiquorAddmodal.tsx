@@ -26,7 +26,8 @@ import {
 	doc,
 } from 'firebase/firestore';
 import { Firestore } from 'firebase/firestore';
-import { firestore, auth, storage } from '../../firebaseConfig';
+import { firestore, auth,storage} from '../../firebaseConfig';
+
 import {
 	getStorage,
 	ref,
@@ -132,7 +133,7 @@ const CustomerEditModal: FC<ICustomerEditModalProps> = ({ id, isOpen, setIsOpen 
 					.then(() => {
 						setIsOpen(false);
 
-						Swal.fire('Added!', 'Employee has been add successfully.', 'success');
+						Swal.fire('Added!', 'Item has been add successfully.', 'success');
 					})
 					.catch((error) => {
 						console.error('Error adding document: ', error);
@@ -210,7 +211,7 @@ const CustomerEditModal: FC<ICustomerEditModalProps> = ({ id, isOpen, setIsOpen 
 							validFeedback='Looks good!'
 						/>
 					</FormGroup>
-					<FormGroup label='Profile Picture' className='col-md-6'>
+					<FormGroup label='Item Picture' className='col-md-6'>
 						<Input
 							type='file'
 							onChange={(e: any) => {
