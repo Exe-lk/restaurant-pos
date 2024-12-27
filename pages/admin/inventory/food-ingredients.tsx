@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
 import SubHeader, {
@@ -11,59 +11,84 @@ import Input from '../../../components/bootstrap/forms/Input';
 import Button from '../../../components/bootstrap/Button';
 import Page from '../../../layout/Page/Page';
 import Card, { CardBody, CardTitle } from '../../../components/bootstrap/Card';
-import UserAddModal from '../../../components/custom/UserAddModal';
-import UserEditModal from '../../../components/custom/UserEditModal';
-import Dropdown, { DropdownToggle, DropdownMenu } from '../../../components/bootstrap/Dropdown';
+import UserAddModal from '../../../components/custom/IngredientAddModal';
+import UserEditModal from '../../../components/custom/IngredientEditModal';
+import UserStockAddModal from '../../../components/custom/StockAddmodal';
+import UserStockOutModal from '../../../components/custom/StockOutModal';
 import Swal from 'sweetalert2';
-import FormGroup from '../../../components/bootstrap/forms/FormGroup';
-import Checks, { ChecksGroup } from '../../../components/bootstrap/forms/Checks';
 import SellerDeleteModal from '../../../components/custom/UserDeleteModal';
-import {
-	useGetUsersQuery,
-	useUpdateUserMutation,
-} from '../../../redux/slices/userManagementApiSlice';
+import { useUpdateUserMutation } from '../../../redux/slices/userManagementApiSlice';
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { firestore } from '../../../firebaseConfig';
+import { dataPagination, PER_COUNT } from '../../../components/PaginationButtons';
 
 const Index: NextPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [addModalStatus, setAddModalStatus] = useState<boolean>(false);
 	const [editModalStatus, setEditModalStatus] = useState<boolean>(false);
+	const [stockAddModalStatus, setStockAddModalStatus] = useState<boolean>(false);
+	const [stockOutModalStatus, setStockOutModalStatus] = useState<boolean>(false);
 	const [deleteModalStatus, setDeleteModalStatus] = useState<boolean>(false);
 	const [id, setId] = useState<string>('');
-	const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-
+	const [ingredient, setIngredient] = useState<any[]>([]);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [perPage, setPerPage] = useState<number>(PER_COUNT['50']);
 	const [updateuser] = useUpdateUserMutation();
-	const handleClickEdit = () => {
-		setEditModalStatus(true);
-	};
-	// Update the user's status to false instead of deleting
-	const handleClickDelete = async (user: any) => {
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const dataCollection = collection(firestore, 'ingredient');
+				const querySnapshot = await getDocs(dataCollection);
+				const firebaseData = querySnapshot.docs.map((doc) => {
+					const data = doc.data();
+					return {
+						...data,
+						id: doc.id,
+					};
+				});
+				setIngredient(firebaseData);
+			} catch (error) {
+				console.error('Error fetching data: ', error);
+			}
+		};
+
+		fetchData();
+	}, [addModalStatus, editModalStatus,stockAddModalStatus,stockOutModalStatus]);
+
+	const handleClickDelete = async (id: string) => {
+		console.log(id);
 		try {
 			const result = await Swal.fire({
 				title: 'Are you sure?',
-				text: 'You will not be able to recover this user!',
+				text: 'You will not be able to recover this employee!',
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
 				confirmButtonText: 'Yes, delete it!',
 			});
+
 			if (result.isConfirmed) {
-				try {
-				} catch (error) {
-					console.error('Error during handleDelete: ', error);
-					Swal.fire(
-						'Error',
-						'An error occurred during deletion. Please try again later.',
-						'error',
-					);
-				}
+				const docRef = doc(firestore, 'ingredient', id);
+				await deleteDoc(docRef);
+				Swal.fire('Deleted!', 'Employee has been deleted.', 'success');
+				const dataCollection = collection(firestore, 'ingredient');
+				const querySnapshot = await getDocs(dataCollection);
+				const firebaseData = querySnapshot.docs.map((doc) => {
+					const data = doc.data();
+					return {
+						...data,
+						id: doc.id,
+					};
+				});
+				setIngredient(firebaseData);
 			}
 		} catch (error) {
 			console.error('Error deleting document: ', error);
-			Swal.fire('Error', 'Failed to delete user.', 'error');
+			Swal.fire('Error', 'Failed to delete employee.', 'error');
 		}
 	};
-
 	return (
 		<PageWrapper>
 			<SubHeader>
@@ -109,31 +134,70 @@ const Index: NextPage = () => {
 									<thead className={'table-dark border-primary'}>
 										<tr>
 											<th>Ingredient Name</th>
-											<th>Quantity </th>
+											<th>Quantity</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>Ingredient1</td>
-											<td>500Kg</td>
+										{ingredient &&
+											dataPagination(ingredient, currentPage, perPage)
+												.filter((dealer: any) =>
+													searchTerm
+														? dealer.name
+																.toLowerCase()
+																.includes(searchTerm.toLowerCase())
+														: true,
+												)
+												.map((dealer: any, index: any) => (
+													<tr key={index}>
+														<td>{dealer.name}</td>
+														<td>{dealer.quantity}</td>
 
-											<td>
-												<Button
-													icon='Edit'
-													color='primary'
-													
-													onClick={handleClickEdit}>
-													Edit
-												</Button>
-												<Button
-													className='m-2'
-													icon='Delete'
-													color='danger'>
-													Delete
-												</Button>
-											</td>
-										</tr>
+														<td>
+															<Button
+																icon='CallReceived'
+																tag='a'
+																color='success'
+																onClick={() => (
+																	setStockAddModalStatus(true),
+																	setId(dealer.id)
+																)}>
+																Stock In
+															</Button>
+
+															<Button
+																className='m-2'
+																icon='CallMissedOutgoing'
+																tag='a'
+																color='warning'
+																onClick={() => (
+																	setStockOutModalStatus(true),
+																	setId(dealer.id)
+																)}>
+																Stock Out
+															</Button>
+
+															<Button
+																icon='Edit'
+																color='primary'
+																onClick={() => (
+																	setEditModalStatus(true),
+																	setId(dealer.id)
+																)}>
+																Edit
+															</Button>
+															<Button
+																className='m-2'
+																icon='Delete'
+																color='danger'
+																onClick={() =>
+																	handleClickDelete(dealer.id)
+																}>
+																Delete
+															</Button>
+														</td>
+													</tr>
+												))}
 									</tbody>
 								</table>
 								<Button
@@ -148,12 +212,9 @@ const Index: NextPage = () => {
 				</div>
 			</Page>
 			<UserAddModal setIsOpen={setAddModalStatus} isOpen={addModalStatus} id='' />
-			<UserEditModal
-				setIsOpen={setEditModalStatus}
-				isOpen={editModalStatus}
-				id={id}
-				refetch={fetch}
-			/>
+			<UserEditModal setIsOpen={setEditModalStatus} isOpen={editModalStatus} id={id} />
+			<UserStockAddModal setIsOpen={setStockAddModalStatus} isOpen={stockAddModalStatus} id={id} />
+			<UserStockOutModal setIsOpen={setStockOutModalStatus} isOpen={stockOutModalStatus} id={id} />
 			<SellerDeleteModal setIsOpen={setDeleteModalStatus} isOpen={deleteModalStatus} id='' />
 		</PageWrapper>
 	);

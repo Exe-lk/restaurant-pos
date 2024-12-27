@@ -77,12 +77,7 @@ export const addminPagesMenu = {
 				path: 'admin/inventory/food-item',
 				icon: 'Fastfood',
 			},
-			stock: {
-				id: 'stock',
-				text: 'Stock',
-				path: 'admin/inventory/stock',
-				icon: 'AddRoad',
-			},
+			
 			liquor: {
 				id: 'liquor',
 				text: 'Bevergaes Managment',
@@ -92,27 +87,27 @@ export const addminPagesMenu = {
 			
 		},
 	},
-	sales: {
-		id: 'sales',
-		text: 'Sales',
-		path: 'single-pages',
-		icon: 'AddCircleOutline',
-		subMenu: {
-			users: {
-				id: 'users',
-				text: 'Users',
-				path: 'admin/sales/users',
-				icon: 'AccountBox',
-			},
-			view: {
-				id: 'view',
-				text: 'View Sales',
-				path: 'admin/sales/view-sales',
-				icon: 'ViewHeadline',
-			},
+	// sales: {
+	// 	id: 'sales',
+	// 	text: 'Sales',
+	// 	path: 'single-pages',
+	// 	icon: 'AddCircleOutline',
+	// 	subMenu: {
+	// 		users: {
+	// 			id: 'users',
+	// 			text: 'Users',
+	// 			path: 'admin/sales/users',
+	// 			icon: 'AccountBox',
+	// 		},
+	// 		view: {
+	// 			id: 'view',
+	// 			text: 'View Sales',
+	// 			path: 'admin/sales/view-sales',
+	// 			icon: 'ViewHeadline',
+	// 		},
 			
-		},
-	},
+	// 	},
+	// },
 };
 export const waiterPagesMenu = {
 	dashboard: {
