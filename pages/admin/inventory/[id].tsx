@@ -111,7 +111,7 @@ const Id: NextPage = () => {
 						isLink
 						icon='ArrowBack'
 						tag='a'
-						to={`/admin/crm/coustomer`}
+						to={`/admin/crm/customer`}
 						>
 						Back to List
 					</Button>
@@ -131,7 +131,7 @@ const Id: NextPage = () => {
 				<div className='pt-3 pb-5 d-flex align-items-center'>
 					<span className='display-4 fw-bold me-3'>User1</span>
 					<span className='border border-success border-2 text-success fw-bold px-3 py-2 rounded'>
-						Coustomer
+						Customer
 					</span>
 				</div>
 				<div className='row'>

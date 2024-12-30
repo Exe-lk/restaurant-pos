@@ -1,171 +1,7 @@
-// import React, { useState } from 'react';
-// import type { NextPage, GetStaticProps } from 'next';
-// import Head from 'next/head';
-// import { useRouter } from 'next/router';
-// import dayjs from 'dayjs';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-// import useDarkMode from '../../../hooks/useDarkMode';
-// import { doc, getDoc } from 'firebase/firestore';
-// import PaginationButtons, {
-//   dataPagination,
-//   PER_COUNT,
-// } from '../../../components/PaginationButtons';
-// import useSortableData from '../../../hooks/useSortableData';
-// import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
-// import { demoPagesMenu } from '../../../menu';
-// import SubHeader, {
-//   SubHeaderLeft,
-//   SubHeaderRight,
-//   SubheaderSeparator,
-// } from '../../../layout/SubHeader/SubHeader';
-// import Button from '../../../components/bootstrap/Button';
-// import Page from '../../../layout/Page/Page';
-// import Card, {
-//   CardActions,
-//   CardBody,
-//   CardHeader,
-//   CardLabel,
-//   CardTitle,
-// } from '../../../components/bootstrap/Card';
-// import Avatar from '../../../components/Avatar';
-// import { getColorNameWithIndex } from '../../../common/data/enumColors';
-// import Icon from '../../../components/icon/Icon';
-// import { priceFormat } from '../../../helpers/helpers';
-// import CustomerEditModal from '../_common/CustomerEditModal';
-// import Swal from 'sweetalert2';
-
-// interface EmployeeData {
-//   id: string;
-//   name: string;
-//   designation: string;
-//   // ... Other properties
-//   membershipDate: Date; // Assuming membershipDate is a Date object
-// }
-
-// const Id: NextPage<{ employeeData: EmployeeData }> = ({ employeeData }) => {
-//   const router = useRouter();
-//   const { id } = router.query;
-
-//   const { darkModeStatus } = useDarkMode();
-
-//   // Pagination state
-//   const [currentPage, setCurrentPage] = useState<number>(1);
-//   const [perPage, setPerPage] = useState<number>(PER_COUNT['3']);
-
-//   // Sorting functionality for sales data
-//   const { items, requestSort, getClassNamesFor } = useSortableData([]);
-
-//   // State for the edit modal
-//   const [editModalStatus, setEditModalStatus] = useState<boolean>(false);
-
-//   // Open the edit modal
-//   const handleClickEdit = () => {
-//     setEditModalStatus(true);
-//   };
-
-//   // Delete functionality
-//   const handleDelete = () => {
-//     // Perform the actual delete logic here
-//     // ...
-//   };
-
-//   const handleClickDelete = () => {
-//     // Show SweetAlert for confirmation
-//     // ...
-//   };
-
-//   return (
-//     <PageWrapper>
-//       <Head>
-//         <title>{demoPagesMenu.hrm.subMenu.customer.text}</title>
-//       </Head>
-//       <SubHeader>
-//         <SubHeaderLeft>
-//           {/* Back to list button */}
-//           <Button
-//             color='primary'
-//             isLink
-//             icon='ArrowBack'
-//             tag='a'
-//             to={`../../${demoPagesMenu.hrm.subMenu.customersList.path}`}>
-//             Back to List
-//           </Button>
-//           <SubheaderSeparator />
-//         </SubHeaderLeft>
-//         <SubHeaderRight>
-//           {/* Edit and Delete buttons */}
-//           <Button icon='Edit' color='primary' isLight onClick={handleClickEdit}>
-//             Edit
-//           </Button>
-//           <Button icon='Delete' color='primary' isLight onClick={handleClickDelete}>
-//             Delete
-//           </Button>
-//         </SubHeaderRight>
-//       </SubHeader>
-//       <Page>
-//         <div className='pt-3 pb-5 d-flex align-items-center'>
-//           <span className='display-4 fw-bold me-3'>{employeeData?.name}</span>
-//           <span className='border border-success border-2 text-success fw-bold px-3 py-2 rounded'>
-//             {employeeData?.designation}
-//           </span>
-//         </div>
-//         <div className='row'>
-//           {/* Remaining code remains the same */}
-//         </div>
-//       </Page>
-//       {/* Edit modal */}
-//       <CustomerEditModal
-//         setIsOpen={setEditModalStatus}
-//         isOpen={editModalStatus}
-//         id={String(id) || 'loading'}
-//       />
-//     </PageWrapper>
-//   );
-// };
-
-// export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
-//   const id = params?.id as string;
-//   const employeeDocRef = doc(firestore, 'employees', id);
-//   const employeeDoc = await getDoc(employeeDocRef);
-//   const employeeData = employeeDoc.data() as EmployeeData;
-
-//   // Convert membershipDate to a JSON serializable format
-//   const serializedEmployeeData = {
-//     ...employeeData,
-//     membershipDate: employeeData.membershipDate.toISOString(),
-//   };
-
-//   return {
-//     props: {
-//       employeeData: serializedEmployeeData,
-//       // @ts-ignore
-//       ...(await serverSideTranslations(locale, ['common', 'menu'])),
-//     },
-//   };
-// };
-
-// export async function getStaticPaths() {
-//   return {
-//     paths: [
-//       // String variant:
-//       '/hrm/customer/1',
-//       // Object variant:
-//       { params: { id: '2' } },
-//     ],
-//     fallback: true,
-//   };
-// }
-
-// export default Id;
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-
 import { useRouter } from 'next/router';
 import dayjs, { Dayjs } from 'dayjs';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -225,16 +61,15 @@ interface Employee {
 	document: string;
 	imageurl: string;
 	cid: string;
-	documentname:string;
-	salary:string;
-	points:string;
+	documentname: string;
+	salary: string;
+	points: string;
 }
-
 
 const Id: NextPage = () => {
 	const router = useRouter();
 	const { id } = router.query;
-	
+
 	const { darkModeStatus } = useDarkMode();
 
 	// Filter the customer data based on the 'id' parameter
@@ -267,12 +102,9 @@ const Id: NextPage = () => {
 				const firebaseData = querySnapshot.docs.map((doc) => {
 					const data = doc.data() as Employee;
 					return {
-
 						...data,
-
 						membershipDate: moment(data.membershipDate),
 						cid: doc.id,
-
 					};
 				});
 				console.log("dd" + id)
@@ -307,7 +139,7 @@ const Id: NextPage = () => {
 				// Show success message
 				Swal.fire('Deleted!', 'Employee has been deleted.', 'success');
 				router.push('/employeepages/manageemployees');
-				
+
 			}
 		} catch (error) {
 			console.error('Error deleting document: ', error);
@@ -316,12 +148,13 @@ const Id: NextPage = () => {
 		}
 	};
 
-
 	return (
 		<PageWrapper>
 			<Head>
 				<title>Employee</title>
 			</Head>
+
+			{/* SubHeader with navigation buttons */}
 			<SubHeader>
 				<SubHeaderLeft>
 					{/* Back to list button */}
@@ -330,7 +163,7 @@ const Id: NextPage = () => {
 						isLink
 						icon='ArrowBack'
 						tag='a'
-						to={`../crm/coustomer`}>
+						to={`../crm/customer`}>
 						Back to List
 					</Button>
 					<SubheaderSeparator />
@@ -413,7 +246,7 @@ const Id: NextPage = () => {
 												<Icon icon='Star' size='3x' color='primary' />
 											</div>
 											<div className='flex-grow-1 ms-3'>
-											<div className='fw-bold fs-5 mb-1'> {employeeData[0]?.points}</div>
+												<div className='fw-bold fs-5 mb-1'> {employeeData[0]?.points}</div>
 												<div className='text-muted mt-n2 truncate-line-1'>
 													Rating
 												</div>
