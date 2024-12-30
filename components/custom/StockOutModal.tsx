@@ -50,6 +50,7 @@ const UserEditModal: FC<UserEditModalProps> = ({ id, isOpen, setIsOpen }) => {
 		initialValues: {
 			id: '',
 			name: userToEdit?.name || '',
+            quantity:null,
 			
 		},
 		enableReinitialize: true,
@@ -77,7 +78,7 @@ const UserEditModal: FC<UserEditModalProps> = ({ id, isOpen, setIsOpen }) => {
 						try {
 							const data = {
 								name: values.name,
-								
+								quantity:Number(userToEdit?.quantity) - Number(values.quantity)
 							};
 		
 							const docRef = doc(firestore, 'ingredient', id);
@@ -123,15 +124,15 @@ const UserEditModal: FC<UserEditModalProps> = ({ id, isOpen, setIsOpen }) => {
 			</ModalHeader>
 			<ModalBody className='px-4'>
 				<div className='row g-4'>
-					<FormGroup id='name' label='Name' className='col-md-6'>
+					<FormGroup id='quantity' label='Quantity' className='col-md-6'>
 						<Input
-							name='name'
-							value={formik.values.name}
+							name='quantity'
+							value={formik.values.quantity}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							isValid={formik.isValid}
-							isTouched={formik.touched.name}
-							invalidFeedback={formik.errors.name}
+							isTouched={formik.touched.quantity}
+							invalidFeedback={formik.errors.quantity}
 							validFeedback='Looks good!'
 						/>
 					</FormGroup>

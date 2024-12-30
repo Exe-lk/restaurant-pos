@@ -23,13 +23,14 @@ import { getFirstLetter } from '../../../helpers/helpers';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import FoodAddModal from '../../../components/custom/LiquorAddmodal';
-import { collection, getDocs } from 'firebase/firestore';
+import LiquorEditModal from '../../../components/custom/LiquorEditModal';
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { firestore } from '../../../firebaseConfig';
 
 const Index: NextPage = () => {
 	// Dark mode
 	const { darkModeStatus } = useDarkMode();
-	//store search feild data
+	const [editModalStatus, setEditModalStatus] = useState<boolean>(false);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [fulltime, setFulltime] = useState<boolean>(true);
 	const [parttime, setParttime] = useState<boolean>(true);
@@ -50,7 +51,7 @@ const Index: NextPage = () => {
 					const data = doc.data();
 					return {
 						...data,
-						_id: doc.id,
+						id: doc.id,
 					};
 				});
 				setFood(firebaseData);
@@ -60,7 +61,7 @@ const Index: NextPage = () => {
 		};
 
 		fetchData();
-	}, [addModalStatus]);
+	}, [addModalStatus, editModalStatus]);
 
 	const { items, requestSort, getClassNamesFor } = useSortableData(foodData);
 
@@ -68,14 +69,11 @@ const Index: NextPage = () => {
 		setId(foodData.length + 1);
 	}, [foodData]);
 
-	//delete employee
 	const handleClickDelete = async (id: string) => {
-		console.log(id);
 		try {
 			const result = await Swal.fire({
 				title: 'Are you sure?',
 				text: 'You will not be able to recover this employee!',
-				// text: id,
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
@@ -84,14 +82,19 @@ const Index: NextPage = () => {
 			});
 
 			if (result.isConfirmed) {
-				axios
-					.delete(`http://erpsysyemwith-aibackend-production.up.railway.app/user/${id}`)
-					.then((res: any) => {
-						setStatus(true);
-					})
-					.catch((err) => {
-						console.error('Error fetching data: ', err);
-					});
+				const docRef = doc(firestore, 'liquor', id);
+				await deleteDoc(docRef);
+				Swal.fire('Deleted!', 'Employee has been deleted.', 'success');
+				const dataCollection = collection(firestore, 'liquor');
+				const querySnapshot = await getDocs(dataCollection);
+				const firebaseData = querySnapshot.docs.map((doc) => {
+					const data = doc.data();
+					return {
+						...data,
+						id: doc.id,
+					};
+				});
+				setFood(firebaseData);
 			}
 		} catch (error) {
 			console.error('Error deleting document: ', error);
@@ -99,22 +102,6 @@ const Index: NextPage = () => {
 		}
 	};
 
-	// filter
-	const handlefulltimefilter = () => {
-		if (fulltime == true) {
-			setFulltime(false);
-		} else {
-			setFulltime(true);
-		}
-	};
-	//filter parttime
-	const handleparttimefilter = () => {
-		if (parttime == true) {
-			setParttime(false);
-		} else {
-			setParttime(true);
-		}
-	};
 	return (
 		<PageWrapper>
 			<SubHeader>
@@ -160,7 +147,7 @@ const Index: NextPage = () => {
 											<th>Bevergaes Name</th>
 											<th>Category</th>
 											<th>Price</th>
-                                            <th> volume</th>
+											<th> volume</th>
 											<th></th>
 											<td />
 										</tr>
@@ -171,13 +158,14 @@ const Index: NextPage = () => {
 												if (searchTerm === '') {
 													return val;
 												} else if (
-													val.name.toLowerCase().includes(searchTerm.toLowerCase())
+													val.name
+														.toLowerCase()
+														.includes(searchTerm.toLowerCase())
 												) {
 													return val;
 												}
 											})
-										.map(
-											(employee, index) => (
+											.map((employee, index) => (
 												<tr key={employee.id}>
 													<td>
 														<div className='d-flex align-items-center'>
@@ -228,19 +216,27 @@ const Index: NextPage = () => {
 													<td>Rs {employee.price}.00</td>
 													<td>{employee.volume}</td>
 													<td>
-														<Button icon='Edit' color='primary'>
+														<Button
+															icon='Edit'
+															color='primary'
+															onClick={() => (
+																setEditModalStatus(true),
+																setId(employee.id)
+															)}>
 															Edit
 														</Button>
 														<Button
 															className='m-2'
 															icon='Delete'
-															color='danger'>
+															color='danger'
+															onClick={() =>
+																handleClickDelete(employee.id)
+															}>
 															Delete
 														</Button>
 													</td>
 												</tr>
-											),
-										)}
+											))}
 									</tbody>
 								</table>
 							</CardBody>
@@ -257,6 +253,7 @@ const Index: NextPage = () => {
 				</div>
 			</Page>
 			<FoodAddModal setIsOpen={setAddModalStatus} isOpen={addModalStatus} id='' />
+			<LiquorEditModal setIsOpen={setEditModalStatus} isOpen={editModalStatus} id={id} />
 		</PageWrapper>
 	);
 };
