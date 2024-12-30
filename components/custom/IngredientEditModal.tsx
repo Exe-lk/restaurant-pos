@@ -50,17 +50,22 @@ const UserEditModal: FC<UserEditModalProps> = ({ id, isOpen, setIsOpen }) => {
 		initialValues: {
 			id: '',
 			name: userToEdit?.name || '',
+			category:userToEdit?.category || ''
 			
 		},
 		enableReinitialize: true,
 		validate: (values) => {
 			const errors: {
 				name?: string;
-				
+				category?:string
+			
 			} = {};
 			
 			if (!values.name) {
 				errors.name = 'Required';
+			}
+			if (!values.category) {
+				errors.category = 'Required';
 			}
 			
 			return errors;
@@ -77,7 +82,7 @@ const UserEditModal: FC<UserEditModalProps> = ({ id, isOpen, setIsOpen }) => {
 						try {
 							const data = {
 								name: values.name,
-								
+								category:values.category
 							};
 		
 							const docRef = doc(firestore, 'ingredient', id);
@@ -134,6 +139,27 @@ const UserEditModal: FC<UserEditModalProps> = ({ id, isOpen, setIsOpen }) => {
 							invalidFeedback={formik.errors.name}
 							validFeedback='Looks good!'
 						/>
+					</FormGroup>
+					<FormGroup id='category' label='Category' className='col-md-6'>
+						<Select
+							ariaLabel='Default select example'
+							placeholder='Open this select category'
+							onChange={formik.handleChange}
+							value={formik.values.category}
+							onBlur={formik.handleBlur}
+							isValid={formik.isValid}
+							isTouched={formik.touched.category}
+							invalidFeedback={formik.errors.category}
+							validFeedback='Looks good!'>
+							
+								<Option value="vegetables">vegetables</Option>
+								<Option value="meats">meats</Option>
+								<Option value="Goods">Goods</Option>
+								<Option value="raw materials">raw materials</Option>
+							
+
+							
+						</Select>
 					</FormGroup>
 					
 				</div>

@@ -358,7 +358,7 @@ const Id: NextPage = () => {
 				setIsOpen={setEditModalStatus}
 				isOpen={editModalStatus}
 				id={id}
-				refetch={fetch}
+				
 			/>
 		</PageWrapper>
 	);

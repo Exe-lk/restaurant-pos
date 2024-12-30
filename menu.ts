@@ -47,7 +47,7 @@ export const addminPagesMenu = {
 			costomer: {
 				id: 'fluidSingle9',
 				text: 'Coustomer Details',
-				path: 'admin/crm/coustomer',
+				path: 'admin/crm/customer',
 				icon: 'ColorLens',
 			},
 			
@@ -64,6 +64,12 @@ export const addminPagesMenu = {
 				text: 'Users',
 				path: 'admin/inventory/users',
 				icon: 'AccountCircle',
+			},
+			category: {
+				id: 'category',
+				text: 'Category Managment',
+				path: 'admin/inventory/category',
+				icon: 'Liquor',
 			},
 			food: {
 				id: 'food1',

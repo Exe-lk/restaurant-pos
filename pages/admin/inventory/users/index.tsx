@@ -1,29 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
-import useDarkMode from '../../../hooks/useDarkMode';
-import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
-import SubHeader, { SubHeaderLeft, SubHeaderRight } from '../../../layout/SubHeader/SubHeader';
-import Icon from '../../../components/icon/Icon';
-import Input from '../../../components/bootstrap/forms/Input';
-import Button from '../../../components/bootstrap/Button';
-import Page from '../../../layout/Page/Page';
-import Card, { CardBody, CardTitle } from '../../../components/bootstrap/Card';
-import UserAddModal from '../../../components/custom/CostomerAddModal';
-import UserEditModal from '../../../components/custom/CoustomerEditModal';
-import Dropdown, { DropdownToggle, DropdownMenu } from '../../../components/bootstrap/Dropdown';
+import useDarkMode from '../../../../hooks/useDarkMode';
+import PageWrapper from '../../../../layout/PageWrapper/PageWrapper';
+import SubHeader, { SubHeaderLeft, SubHeaderRight } from '../../../../layout/SubHeader/SubHeader';
+import Icon from '../../../../components/icon/Icon';
+import Input from '../../../../components/bootstrap/forms/Input';
+import Button from '../../../../components/bootstrap/Button';
+import Page from '../../../../layout/Page/Page';
+import Card, { CardBody, CardTitle } from '../../../../components/bootstrap/Card';
+import UserAddModal from '../../../../components/custom/CostomerAddModal';
+import UserEditModal from '../../../../components/custom/CoustomerEditModal';
+import Dropdown, { DropdownToggle, DropdownMenu } from '../../../../components/bootstrap/Dropdown';
 import Swal from 'sweetalert2';
 
 import { toPng, toSvg } from 'html-to-image';
-import { DropdownItem } from '../../../components/bootstrap/Dropdown';
+import { DropdownItem } from '../../../../components/bootstrap/Dropdown';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 import PaginationButtons, {
 	dataPagination,
 	PER_COUNT,
-} from '../../../components/PaginationButtons';
+} from '../../../../components/PaginationButtons';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
-import { firestore } from '../../../firebaseConfig';
+import { firestore } from '../../../../firebaseConfig';
 
 const Index: NextPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
