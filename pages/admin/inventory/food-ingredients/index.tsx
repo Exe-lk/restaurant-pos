@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
+import PageWrapper from '../../../../layout/PageWrapper/PageWrapper';
 import SubHeader, {
 	SubHeaderLeft,
 	SubHeaderRight,
 	SubheaderSeparator,
-} from '../../../layout/SubHeader/SubHeader';
-import Icon from '../../../components/icon/Icon';
-import Input from '../../../components/bootstrap/forms/Input';
-import Button from '../../../components/bootstrap/Button';
-import Page from '../../../layout/Page/Page';
-import Card, { CardBody, CardTitle } from '../../../components/bootstrap/Card';
-import UserAddModal from '../../../components/custom/IngredientAddModal';
-import UserEditModal from '../../../components/custom/IngredientEditModal';
-import UserStockAddModal from '../../../components/custom/StockAddmodal';
-import UserStockOutModal from '../../../components/custom/StockOutModal';
+} from '../../../../layout/SubHeader/SubHeader';
+import Icon from '../../../../components/icon/Icon';
+import Input from '../../../../components/bootstrap/forms/Input';
+import Button from '../../../../components/bootstrap/Button';
+import Page from '../../../../layout/Page/Page';
+import Card, { CardBody, CardTitle } from '../../../../components/bootstrap/Card';
+import UserAddModal from '../../../../components/custom/IngredientAddModal';
+import UserEditModal from '../../../../components/custom/IngredientEditModal';
+import UserStockAddModal from '../../../../components/custom/StockAddmodal';
+import UserStockOutModal from '../../../../components/custom/StockOutModal';
 import Swal from 'sweetalert2';
-import SellerDeleteModal from '../../../components/custom/UserDeleteModal';
-import { useUpdateUserMutation } from '../../../redux/slices/userManagementApiSlice';
+import SellerDeleteModal from '../../../../components/custom/UserDeleteModal';
+import { useUpdateUserMutation } from '../../../../redux/slices/userManagementApiSlice';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
-import { firestore } from '../../../firebaseConfig';
-import { dataPagination, PER_COUNT } from '../../../components/PaginationButtons';
+import { firestore } from '../../../../firebaseConfig';
+import { dataPagination, PER_COUNT } from '../../../../components/PaginationButtons';
 
 const Index: NextPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -134,7 +134,9 @@ const Index: NextPage = () => {
 									<thead className={'table-dark border-primary'}>
 										<tr>
 											<th>Ingredient Name</th>
+											<th>Category</th>
 											<th>Quantity</th>
+											
 											<th></th>
 										</tr>
 									</thead>
@@ -151,6 +153,7 @@ const Index: NextPage = () => {
 												.map((dealer: any, index: any) => (
 													<tr key={index}>
 														<td>{dealer.name}</td>
+														<td>{dealer.category}</td>
 														<td>{dealer.quantity}</td>
 
 														<td>

@@ -10,22 +10,12 @@ import Modal, {
 import FormGroup from '../../components/bootstrap/forms/FormGroup';
 import Input from '../../components/bootstrap/forms/Input';
 import Button from '../../components/bootstrap/Button';
-import {
-	collection,
-	getDocs,
-	query,
-	where,
-	updateDoc,
-	doc,
-} from 'firebase/firestore';
+import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
 import { firestore, auth, storage } from '../../firebaseConfig';
-import {
-	ref,
-	getDownloadURL,
-	uploadBytesResumable,
-} from 'firebase/storage';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import Swal from 'sweetalert2';
-
+import Select from '../bootstrap/forms/Select';
+import Option, { Options } from '../bootstrap/Option';
 
 // Define the props for the CustomerEditModal component
 interface ICustomerEditModalProps {
@@ -33,14 +23,35 @@ interface ICustomerEditModalProps {
 	isOpen: boolean;
 	setIsOpen(...args: unknown[]): unknown;
 }
-
+interface Category {
+	categoryname: string;
+}
 // CustomerEditModal component definition
 const CustomerEditModal: FC<ICustomerEditModalProps> = ({ id, isOpen, setIsOpen }) => {
 	const [imageurl, setImageurl] = useState<any>(null);
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [food, setFood] = useState<any>();
 
-	console.log(id);
+	const [category, setCategory] = useState<Category[]>([]);
+	//get data from database
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const dataCollection = collection(firestore, 'category');
+				const querySnapshot = await getDocs(dataCollection);
+				const firebaseData = querySnapshot.docs.map((doc) => {
+					const data = doc.data() as Category;
+					return {
+						...data,
+					};
+				});
+				setCategory(firebaseData);
+			} catch (error) {
+				console.error('Error fetching data: ', error);
+			}
+		};
+		fetchData();
+	}, []);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -189,16 +200,20 @@ const CustomerEditModal: FC<ICustomerEditModalProps> = ({ id, isOpen, setIsOpen 
 						/>
 					</FormGroup>
 					<FormGroup id='category' label='Category' className='col-md-6'>
-						<Input
-							required
+						<Select
+							ariaLabel='Default select example'
+							placeholder='Open this select category'
 							onChange={formik.handleChange}
 							value={formik.values.category}
 							onBlur={formik.handleBlur}
 							isValid={formik.isValid}
 							isTouched={formik.touched.category}
 							invalidFeedback={formik.errors.category}
-							validFeedback='Looks good!'
-						/>
+							validFeedback='Looks good!'>
+							{category.map((item, index) => (
+								<Option value={item.categoryname}>{item.categoryname}</Option>
+							))}
+						</Select>
 					</FormGroup>
 					<FormGroup id='price' label='Price' className='col-md-6'>
 						<Input

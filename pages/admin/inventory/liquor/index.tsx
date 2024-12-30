@@ -1,31 +1,31 @@
 import React, { FC, useState, useEffect } from 'react';
 import type { NextPage } from 'next';
-import useDarkMode from '../../../hooks/useDarkMode';
+import useDarkMode from '../../../../hooks/useDarkMode';
 import PaginationButtons, {
 	dataPagination,
 	PER_COUNT,
-} from '../../../components/PaginationButtons';
-import useSortableData from '../../../hooks/useSortableData';
-import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
+} from '../../../../components/PaginationButtons';
+import useSortableData from '../../../../hooks/useSortableData';
+import PageWrapper from '../../../../layout/PageWrapper/PageWrapper';
 import SubHeader, {
 	SubHeaderLeft,
 	SubHeaderRight,
 	SubheaderSeparator,
-} from '../../../layout/SubHeader/SubHeader';
-import Icon from '../../../components/icon/Icon';
-import Input from '../../../components/bootstrap/forms/Input';
-import Button from '../../../components/bootstrap/Button';
-import Page from '../../../layout/Page/Page';
-import Card, { CardBody } from '../../../components/bootstrap/Card';
+} from '../../../../layout/SubHeader/SubHeader';
+import Icon from '../../../../components/icon/Icon';
+import Input from '../../../../components/bootstrap/forms/Input';
+import Button from '../../../../components/bootstrap/Button';
+import Page from '../../../../layout/Page/Page';
+import Card, { CardBody } from '../../../../components/bootstrap/Card';
 import moment from 'moment';
-import { getColorNameWithIndex } from '../../../common/data/enumColors';
-import { getFirstLetter } from '../../../helpers/helpers';
+import { getColorNameWithIndex } from '../../../../common/data/enumColors';
+import { getFirstLetter } from '../../../../helpers/helpers';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import FoodAddModal from '../../../components/custom/LiquorAddmodal';
-import LiquorEditModal from '../../../components/custom/LiquorEditModal';
+import FoodAddModal from '../../../../components/custom/LiquorAddmodal';
+import LiquorEditModal from '../../../../components/custom/LiquorEditModal';
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
-import { firestore } from '../../../firebaseConfig';
+import { firestore } from '../../../../firebaseConfig';
 
 const Index: NextPage = () => {
 	// Dark mode
