@@ -46,7 +46,7 @@ export const addminPagesMenu = {
 		subMenu: {
 			costomer: {
 				id: 'fluidSingle9',
-				text: 'Coustomer Details',
+				text: 'Customer Details',
 				path: 'admin/crm/customer',
 				icon: 'ColorLens',
 			},
@@ -231,10 +231,10 @@ export const stockkeeperPagesMenu = {
 		subMenu: null,
 	},
 
-	Coustomer: {
+	Customer: {
 		id: 'lot',
 		text: 'Customer Management',
-		path: 'cashier/coustomer-management',
+		path: 'cashier/customer-management',
 		icon: 'PermIdentity',
 		subMenu: null,
 	},
