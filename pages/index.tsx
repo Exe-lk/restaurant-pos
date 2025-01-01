@@ -24,8 +24,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { auth, firestore } from '../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Logo from '../components/Logo';
-import {useAddUserMutation}  from '../redux/slices/userApiSlice'
-import { useGetUsersQuery } from '../redux/slices/userApiSlice';
+
 
 interface ILoginHeaderProps {
 	isNewUser?: boolean;
@@ -53,7 +52,7 @@ const Login: NextPage<ILoginProps> = ({ isSignUp }) => {
 	const { darkModeStatus } = useDarkMode();
 	const [users, setUsers] = useState<User[]>([]);
 	const { setUser } = useContext(AuthContext);
-	const [addUser] = useAddUserMutation();
+
 
 	//login
 	const formik = useFormik({
@@ -77,47 +76,47 @@ const Login: NextPage<ILoginProps> = ({ isSignUp }) => {
 		},
 
 		onSubmit: async (values) => {
-			try {
-			  const response = await addUser(values).unwrap();
-			  const email = response.user.email;
+			// try {
+			//   const response = await addUser(values).unwrap();
+			//   const email = response.user.email;
 			  
-			  console.log(response)
-			  if (response.user) {
-				await Swal.fire({
-				  icon: 'success',
-				  title: 'Login Successful',
-				  text: 'You have successfully logged in!',
-				});
-				switch (response.user.position) {
-				  case 'admin':
-					router.push('/admin/dashboard');
-					break;
-				  case 'Viewer':
-					router.push('/viewer/dashboard');
-					break;
-				  case 'Production Coordinator':
-					router.push('/production-coordinator/job-management');
-					break;
-				  case 'cashier':
-					await localStorage.setItem('email',values.email);
-					await localStorage.setItem('password', values.password);
-					router.push('/cashier/dashboard');
-					break;
+			//   console.log(response)
+			//   if (response.user) {
+			// 	await Swal.fire({
+			// 	  icon: 'success',
+			// 	  title: 'Login Successful',
+			// 	  text: 'You have successfully logged in!',
+			// 	});
+			// 	switch (response.user.position) {
+			// 	  case 'admin':
+			// 		router.push('/admin/dashboard');
+			// 		break;
+			// 	  case 'Viewer':
+			// 		router.push('/viewer/dashboard');
+			// 		break;
+			// 	  case 'Production Coordinator':
+			// 		router.push('/production-coordinator/job-management');
+			// 		break;
+			// 	  case 'cashier':
+			// 		await localStorage.setItem('email',values.email);
+			// 		await localStorage.setItem('password', values.password);
+			// 		router.push('/cashier/dashboard');
+			// 		break;
 				 
-				  default:
-					break;
-				}
-			  } else {
-				await Swal.fire({
-				  icon: 'error',
-				  title: 'Invalid Credentials',
-				  text: 'Username and password do not match. Please try again.',
-				});
-			  }
-			} catch (error) {
-			  console.error('Error occurred:', error);
-			  Swal.fire('Error', 'An unexpected error occurred', 'error');
-			}
+			// 	  default:
+			// 		break;
+			// 	}
+			//   } else {
+			// 	await Swal.fire({
+			// 	  icon: 'error',
+			// 	  title: 'Invalid Credentials',
+			// 	  text: 'Username and password do not match. Please try again.',
+			// 	});
+			//   }
+			// } catch (error) {
+			//   console.error('Error occurred:', error);
+			//   Swal.fire('Error', 'An unexpected error occurred', 'error');
+			// }
 		  },
 		});
 		
