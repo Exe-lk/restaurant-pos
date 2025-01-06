@@ -12,6 +12,7 @@ import Card, {
 } from '../../../components/bootstrap/Card';
 import Button from '../../../components/bootstrap/Button';
 import { useRouter } from 'next/router';
+import FoodCategory from '../../../components/FoodCategory';
 
 const Index = () => {
 	const router = useRouter();
@@ -115,7 +116,7 @@ const Index = () => {
 			</div>
 
 			<Card className='bg-dark'>
-				<CardTitle>
+			<CardTitle>
 					<div style={{ display: 'flex', width: '100%' }}>
 						{/* Food Button */}
 						<Button
@@ -151,122 +152,10 @@ const Index = () => {
 
 				<CardBody>
 					<div className='row g-4'>
-						{activeButton == 'food' ? (
-							<>
-								{foodData.map((item) => (
-									<div key={item.cid} className='col-md-12'>
-										<Card
-											shadow='lg'
-											borderSize={4}
-											borderColor={item.points > 0 ? 'danger' : 'none'}
-											className='mb-1 d-flex align-items-center'>
-											<div className='d-flex w-100'>
-												{/* Image Section */}
-												<div className='flex-shrink-0 me-3'>
-													<img
-														src={item.imageurl}
-														alt={item.name}
-														className='img-fluid'
-														style={{
-															objectFit: 'cover',
-															width: '100%',
-															height: '75px',
-															borderRadius: '8px 0px 0px 8px',
-														}}
-													/>
-												</div>
-
-												{/* Data Section */}
-												<div className='flex-grow-1 ms-1'>
-													{/* Name */}
-													<div className='fw-bold fs-4'>{item.name}</div>
-
-													{/* Description */}
-													<div className='text-muted fs-6 mb-3'>
-														{item.category}
-													</div>
-
-													{/* Price and Buttons Section */}
-													<div className='d-flex justify-content-between align-items-end'>
-														{/* Price */}
-														<div className='text-danger fs-5 mb-2'>
-															Rs {item.price}.00
-														</div>
-
-														{/* Buttons */}
-														<div
-															className='d-flex align-items-center justify-content-between p-1'
-															style={{
-																boxShadow:
-																	'0px 4px 15px rgba(0, 0, 0, 0.2)',
-																borderRadius: '30px', // Elliptical shadow effect
-																background: '#fff',
-															}}>
-															{/* Minus Button */}
-															<Button
-																color='warning'
-																style={{
-																	width: '25px',
-																	height: '25px',
-																	borderRadius: '50%',
-																	display: 'flex',
-																	justifyContent: 'center',
-																	alignItems: 'center',
-																	fontSize: '20px',
-																	boxShadow:
-																		'0px 2px 5px rgba(0, 0, 0, 0.1)',
-																}}
-																onClick={() =>
-																	handlePointsChange(
-																		item.cid,
-																		'subtract',
-																	)
-																}>
-																-
-															</Button>
-
-															{/* Points Display */}
-															<div
-																className='flex-grow-1 ms-2 me-2 text-center'
-																style={{
-																	fontWeight: 'bold',
-																	color: '#333',
-																	fontSize: '18px',
-																}}>
-																{item.points}
-															</div>
-
-															{/* Plus Button */}
-															<Button
-																color='warning'
-																style={{
-																	width: '25px',
-																	height: '25px',
-																	borderRadius: '50%',
-																	display: 'flex',
-																	justifyContent: 'center',
-																	alignItems: 'center',
-																	fontSize: '20px',
-																	boxShadow:
-																		'0px 2px 5px rgba(0, 0, 0, 0.1)',
-																}}
-																onClick={() =>
-																	handlePointsChange(
-																		item.cid,
-																		'add',
-																	)
-																}>
-																+
-															</Button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</Card>
-									</div>
-								))}
-							</>
-						) : (
+						{activeButton === 'food' && (
+							<FoodCategory items={foodData} handlePointsChange={handlePointsChange} />
+						)}
+						{activeButton === 'liquor' && (
 							<>
 								{liquorData.map((item) => (
 									<div key={item.cid} className='col-md-12'>
@@ -381,7 +270,7 @@ const Index = () => {
 									</div>
 								))}
 							</>
-						)}
+)}
 					</div>
 				</CardBody>
 			</Card>
