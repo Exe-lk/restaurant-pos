@@ -16,8 +16,7 @@ import UserEditModal from '../../../../components/custom/IngredientEditModal';
 import UserStockAddModal from '../../../../components/custom/StockAddmodal';
 import UserStockOutModal from '../../../../components/custom/StockOutModal';
 import Swal from 'sweetalert2';
-import SellerDeleteModal from '../../../../components/custom/UserDeleteModal';
-import { useUpdateUserMutation } from '../../../../redux/slices/userManagementApiSlice';
+
 import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { firestore } from '../../../../firebaseConfig';
 import { dataPagination, PER_COUNT } from '../../../../components/PaginationButtons';
@@ -33,7 +32,7 @@ const Index: NextPage = () => {
 	const [ingredient, setIngredient] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [perPage, setPerPage] = useState<number>(PER_COUNT['50']);
-	const [updateuser] = useUpdateUserMutation();
+
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -218,7 +217,7 @@ const Index: NextPage = () => {
 			<UserEditModal setIsOpen={setEditModalStatus} isOpen={editModalStatus} id={id} />
 			<UserStockAddModal setIsOpen={setStockAddModalStatus} isOpen={stockAddModalStatus} id={id} />
 			<UserStockOutModal setIsOpen={setStockOutModalStatus} isOpen={stockOutModalStatus} id={id} />
-			<SellerDeleteModal setIsOpen={setDeleteModalStatus} isOpen={deleteModalStatus} id='' />
+			
 		</PageWrapper>
 	);
 };
